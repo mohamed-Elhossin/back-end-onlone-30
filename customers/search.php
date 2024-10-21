@@ -27,6 +27,16 @@ if (isset($_GET['delete'])) {
     $data =   mysqli_query($connect, $select);
 }
 
+
+if (isset($_POST['search'])) {
+    $search_value = $_POST['search_value'];
+    $select = "SELECT * FROM customers where name like '%$search_value%' OR  phone like '%$search_value%' ";
+    $data =   mysqli_query($connect, $select);
+    $num_rows = mysqli_num_rows($data);
+    if ($num_rows == 0) {
+        $_SESSION['message'] = "No Search Found $search_value";
+    }
+}
 ?>
 
 <?php
@@ -46,7 +56,7 @@ include_once '../shared/nav.php';
         </div>
     <?php endif; ?>
     <div class="card">
-        <form action="./search.php" method="post">
+        <form method="post">
             <div class="row">
                 <div class="col-md-9">
                     <div class="form-group">
